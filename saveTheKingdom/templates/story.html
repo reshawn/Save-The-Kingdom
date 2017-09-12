@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+    
+    <div id="box">
+        <h1 style="color:tomato">Can You Save Them?</h1>
+
+        <h3> 
+            Every 100 years the Kingdom of Xeek suffers the potato's plague,
+            <br>
+
+            But there is hope.
+            A wanderer is drawn near.
+            He must pick one of eight potatoes. If he uproots the cursed one,
+            the plague will cease.
+            <br><br>
+
+            Welcome, Guide. You have the power to lead the wanderers one by one in this task.
+            A great number of {{num_wanderers}} have tried before. Many have failed.
+    
+            <br>Can you save the kingdom?
+
+            
+        </h2>
+        
+        <br>
+        <a href="{% url 'mission' %}" class="btn buttn">Continue</a>
+    </div>
+    
+{% endblock %}

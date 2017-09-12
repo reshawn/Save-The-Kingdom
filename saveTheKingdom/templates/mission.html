@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block js %} {% load static %} <script src="{% static 'js/mission.js' %}"></script>{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center titles" id="title">Uproot A Potato</h1>
+    <br><br>
+    <div class="container" id="contain"> 
+        {% for i in num_rows %}
+            <div class="row">
+            <div class="col-md-2"> </div>
+            {% for x in num_plants %}
+            <!-- produce id in the form "id:rowcolumn", using "id:" to stop add tag from adding the numbers -->
+                {% with i|stringformat:"s" as is %}
+                    {% with "id:"|add:is as row%}
+                        {% with x|stringformat:"s" as xs%}
+                            {% with row|add:xs as row_col%} 
+                                <div class="col-md-2 plant" id={{row_col}}>
+                                </div>
+                            {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endwith %}
+                
+            {% endfor %}
+            </div>
+        {% endfor %}
+
+        <br><br><br><br>
+        <div class="row text-center">
+            <a href="{% url 'saveWand' %}" class="btn buttn">Continue</a>
+        </div>
+    </div>
+    
+
+{% endblock %}
