@@ -3,37 +3,45 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p class="text-danger titles">Your username and password didn't match. Please try again.</p>
 {% endif %}
 
 {% if next %}
     {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
+    <div class="container box2">
+      <p class="text-danger titles  ">Your account doesn't have access to this page. To proceed,
     please login with an account that has access.</p>
+    </div>
     {% else %}
-    <p>Please login to see this page.</p>
+    <div class="container box2">
+      <h3 class="text-danger titles">Please login to see this page.</p>
+    </div>
     {% endif %}
 {% endif %}
 
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
+<div class="container box2">
+  <div>
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td><br><br>
+  </div>
+  <div>
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td><br><br>
+  </div>
 
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
-
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
+  <div>
+    <input type="submit" value="login" class="btn btn-default" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
 </div>
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<div class="container box2">
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p><br>
+  <p><a href="{% url 'signup' %}">Don't have an account?</a></p>
+</div>
 
 {% endblock %}

@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from .models import Wanderer
+from .forms import newWanderer
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import newWanderer
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 
@@ -40,7 +42,7 @@ def status_hero(request):
 class WandererByGuideListView(LoginRequiredMixin,ListView):
     model = Wanderer
     template_name = 'wanderers_list.html'
-    paginate_by = 10
+    paginate_by = 30
     context_object_name = 'wanderers_list'
 
     def get_queryset(self):
@@ -54,24 +56,37 @@ def AllWanderers(request):
     return render(request,'wall_xeek.html', {'allHeroes':allHeroes,'allLosers':allLosers,'hCount':heroCount,'lCount':loserCount})
 
 @login_required
-def save_wanderer(request):
-    # only process save if user completed mission first
+def saveWanderer(request):
     if (request.session['complete']):
-        form = newWanderer(request.POST)
         if request.method == 'POST':
-            if form.is_valid():
-                w = Wanderer.objects.create(
-                    name=form.cleaned_data['name'],
-                    comment = form.cleaned_data['comment'],
-                    status = request.session['status'],
-                    guide = request.user
-                )
-                request.session['complete'] = False
-                request.session['status']='l'
-                return HttpResponseRedirect(reverse('my-wanderers'))
-        else:
-            form = newWanderer()
+            
+            w = Wanderer.objects.create(
+                name= request.POST.get("nickname"),
+                comment = request.POST.get("comment"),
+                status = request.session['status'],
+                guide = request.user
+            )
+            request.session['complete'] = False
+            request.session['status']='l'
+            return HttpResponseRedirect(reverse('my-wanderers'))
         
-        return render(request, 'save_wanderer.html',{'form':form} )
+            
+        
+        return render(request, 'save_wanderer.html')
     # if mission not complete redirect to mission
     else: return HttpResponseRedirect(reverse('mission'))
+    # return render(request,'save_wanderer.html')
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return HttpResponseRedirect(reverse('story'))
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})

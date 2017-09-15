@@ -1,7 +1,8 @@
 Highcharts.chart('container', {
     chart: {
-        plotBackgroundColor: null,
+        plotBackgroundColor: 'white',
         plotBorderWidth: 0,
+
         plotShadow: false
     },
     title: {

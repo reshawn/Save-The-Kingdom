@@ -58,7 +58,7 @@ $(document).ready(function(){
                             $(this).css({'border':'none','border-radius':'0','cursor':'default'})
                     });
                     $(".plant").css({'cursor':'not-allowed'});
-                    $("#title").text("Wrong potato!");
+                    $("#title").text("Wrong potato! Everyone dies!");
                 }
                 attempts --;
             }

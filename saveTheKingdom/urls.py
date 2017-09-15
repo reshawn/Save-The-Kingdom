@@ -8,7 +8,8 @@ urlpatterns = [
     url(r'^mission/$', views.mission, name='mission'),
     url(r'^myWanderers/$', views.WandererByGuideListView.as_view(), name='my-wanderers'),
     url(r'^mission/setStatusHero/$', views.status_hero, name='setStatusHero'),
-    url(r'^mission/saveWanderer/$', views.save_wanderer, name='saveWand'),
+    url(r'^mission/saveWanderer/$', views.saveWanderer, name='saveWand'),
     url(r'^wall/$', views.AllWanderers, name='wall'),
+    url(r'^signup/$', views.signup, name='signup'),
 
 ]
